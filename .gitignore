@@ -218,3 +218,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Secrets - never commit
+.env
+*.key
+secrets.toml
+.streamlit/secrets.toml
+
+# Local data and models
+data/raw/
+models/*.bin
+*.db
