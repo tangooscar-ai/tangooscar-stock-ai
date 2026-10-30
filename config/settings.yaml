@@ -1,0 +1,21 @@
+history_years: 3
+database_path: data/processed/tangooscar.db
+
+stocks:
+  - "RELIANCE.NS"
+  - "TCS.NS"
+  - "HDFCBANK.NS"
+  - "INFY.NS"
+  - "ICICIBANK.NS"
+  - "SBIN.NS"
+  - "ITC.NS"
+  - "LT.NS"
+  - "BHARTIARTL.NS"
+  - "HINDUNILVR.NS"
+
+indices:
+  - "^NSEI"
+  - "^BSESN"
+  - "^NSEBANK"
+  - "^CRSLDX"
+  - "^INDIAVIX"
