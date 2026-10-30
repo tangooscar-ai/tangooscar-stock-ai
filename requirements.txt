@@ -1,0 +1,16 @@
+pandas
+numpy
+yfinance
+requests
+feedparser
+beautifulsoup4
+lxml
+plotly
+streamlit
+scikit-learn
+lightgbm
+statsmodels
+ta
+python-dotenv
+PyYAML
+pytest
