@@ -30,4 +30,4 @@ def check_quality(df, is_index=False):
         if zero_volume:
             issues.append(f"{zero_volume} day(s) with zero volume")
 
-    return issues
+    return issues 
