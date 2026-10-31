@@ -7,33 +7,22 @@ from src.utils.config import load_settings
 
 settings = load_settings()
 db_path = Path(settings["database_path"])
+conn = get_connection(db_path)
 
-if not db_path.exists():
-    print("Database not found. Run collect_data.py first.")
-else:
-    conn = get_connection(db_path)
+summary = pd.read_sql_query(
+    "SELECT symbol, COUNT(*) AS n_rows, MIN(date) AS first_date, "
+    "MAX(date) AS last_date FROM prices GROUP BY symbol ORDER BY symbol",
+    conn,
+)
+print(summary.to_string(index=False))
 
-    summary = pd.read_sql_query(
-        "SELECT symbol, COUNT(*) AS n_rows, MIN(date) AS first_date, "
-        "MAX(date) AS last_date FROM prices GROUP BY symbol ORDER BY symbol",
-        conn,
-    )
-    print(summary.to_string(index=False))
+have = dict(zip(summary["symbol"], summary["n_rows"]))
+stocks_ok = all(have.get(s, 0) >= 600 for s in settings["stocks"])
+missing_idx = [i for i in settings["indices"] if i not in have]
+if missing_idx:
+    print("\nIndices not available (not blocking):", missing_idx)
 
-    print("\nLatest 5 days for RELIANCE.NS:")
-    sample = pd.read_sql_query(
-        "SELECT date, open, high, low, close, adj_close, volume FROM prices "
-        "WHERE symbol = 'RELIANCE.NS' ORDER BY date DESC LIMIT 5",
-        conn,
-    )
-    print(sample.to_string(index=False))
-
-    log = pd.read_sql_query(
-        "SELECT symbol, status, note FROM fetch_log "
-        "WHERE id IN (SELECT MAX(id) FROM fetch_log GROUP BY symbol) "
-        "AND note != '' ORDER BY symbol",
-        conn,
-    )
-    if not log.empty:
-        print("\nQuality notes:")
-        print(log.to_string(index=False))
+size_mb = db_path.stat().st_size / (1024 * 1024)
+print(f"\nDatabase size: {size_mb:.1f} MB")
+print("\nPHASE 3 COMPLETE" if stocks_ok else "\nSOME STOCKS ARE MISSING DATA - run collect_data.py again")
+conn.close()
