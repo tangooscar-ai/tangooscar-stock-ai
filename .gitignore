@@ -228,3 +228,4 @@ secrets.toml
 data/raw/
 models/*.bin
 *.db
+reports/*.html
