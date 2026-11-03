@@ -143,7 +143,7 @@ def build_chart(df, symbol, support=None, resistance=None, days=250, show_patter
     fig.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]), dict(values=missing)])
     fig.update_xaxes(rangeslider_visible=False)
     fig.update_xaxes(
-        rangeselector=dict(buttons=[
+        rangeselector=dict(bgcolor="#37474f", font=dict(color="white"), buttons=[
             dict(count=1, label="1M", step="month", stepmode="backward"),
             dict(count=3, label="3M", step="month", stepmode="backward"),
             dict(count=6, label="6M", step="month", stepmode="backward"),
@@ -151,19 +151,18 @@ def build_chart(df, symbol, support=None, resistance=None, days=250, show_patter
         ]),
         row=1, col=1,
     )
-
     fig.update_layout(
         template="plotly_dark",
-        height=900,
-        title=dict(text=f"{symbol} daily chart (data to {last_date}, delayed)"),
+        height=950,
+        title=dict(text=f"{symbol} daily chart (data to {last_date}, delayed)", y=0.98),
         hovermode="x unified",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0),
-        margin=dict(l=50, r=30, t=110, b=60),
+        legend=dict(orientation="h", yanchor="top", y=-0.07, x=0),
+        margin=dict(l=50, r=30, t=90, b=190),
     )
     fig.add_annotation(
         text="Source: Yahoo Finance via yfinance, about 15 minutes delayed. "
              "Research view, not investment advice.",
-        xref="paper", yref="paper", x=0, y=-0.05, showarrow=False,
+        xref="paper", yref="paper", x=0, y=-0.22, showarrow=False,
         font=dict(size=11),
     )
     fig.update_yaxes(title_text="Price (Rs)", row=1, col=1)
