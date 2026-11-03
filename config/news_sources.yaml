@@ -1,0 +1,31 @@
+feeds:
+  - name: "RBI press releases"
+    url: "https://rbi.org.in/pressreleases_rss.xml"
+    tier: "official"
+  - name: "RBI notifications"
+    url: "https://rbi.org.in/notifications_rss.xml"
+    tier: "official"
+  - name: "SEBI press releases, circulars, orders"
+    url: "https://www.sebi.gov.in/sebirss.xml"
+    tier: "official"
+  - name: "Economic Times Markets"
+    url: "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms"
+    tier: "major"
+  - name: "Mint Markets"
+    url: "https://www.livemint.com/rss/markets"
+    tier: "major"
+  - name: "Business Standard Markets"
+    url: "https://www.business-standard.com/rss/markets-106.rss"
+    tier: "major"
+
+companies:
+  "RELIANCE.NS": ["Reliance Industries", "RIL"]
+  "TCS.NS": ["Tata Consultancy Services", "TCS"]
+  "HDFCBANK.NS": ["HDFC Bank"]
+  "INFY.NS": ["Infosys"]
+  "ICICIBANK.NS": ["ICICI Bank"]
+  "SBIN.NS": ["State Bank of India", "SBI"]
+  "ITC.NS": ["ITC Ltd", "ITC"]
+  "LT.NS": ["Larsen & Toubro", "L&T"]
+  "BHARTIARTL.NS": ["Bharti Airtel", "Airtel"]
+  "HINDUNILVR.NS": ["Hindustan Unilever", "HUL"]
