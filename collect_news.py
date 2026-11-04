@@ -1,11 +1,29 @@
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from src.analysis.news_match import compile_aliases, find_symbols
 from src.data.news_data import fetch_feed, google_news_url, load_sources, normalise_entry
 from src.storage.database import get_connection
 from src.storage.news_store import create_news_table, save_items
 from src.utils.config import load_settings
+
+FILING_TERMS = '("exchange filing" OR "regulatory filing" OR "board meeting")'
+
+
+def build_jobs(sources):
+    jobs = [(f["name"], f["url"], f["tier"]) for f in sources["feeds"]]
+    for names in sources["companies"].values():
+        company = names[0]
+        jobs.append(("Google News: " + company, google_news_url(company), "aggregator"))
+        filing_query = '"' + company + '" ' + FILING_TERMS
+        jobs.append(
+            (
+                "Google News filings: " + company,
+                google_news_url(filing_query, exact=False),
+                "aggregator",
+            )
+        )
+    return jobs
 
 
 def main():
@@ -15,12 +33,10 @@ def main():
     conn = get_connection(settings["database_path"])
     create_news_table(conn)
 
-    jobs = [(f["name"], f["url"], f["tier"]) for f in sources["feeds"]]
-    for symbol, names in sources["companies"].items():
-        jobs.append(("Google News: " + names[0], google_news_url(names[0]), "aggregator"))
-
+    jobs = build_jobs(sources)
     total_new = 0
     failed = []
+    stale = []
     for name, url, tier in jobs:
         print(name + " ...", end=" ", flush=True)
         try:
@@ -38,10 +54,19 @@ def main():
                 continue
             text = item["title"] + " " + item["summary"]
             item["symbols"] = ",".join(find_symbols(text, compiled))
+            if name.startswith("Google News filings") and not item["symbols"]:
+        continue
             items.append(item)
 
         new, duplicates, merged = save_items(conn, items)
-        print(f"{len(items)} items, {new} new, {duplicates} duplicates")
+        message = f"{len(items)} items, {new} new, {duplicates} duplicates"
+
+        dated = [i["published_at"] for i in items if i["published_at"]]
+        cutoff = (collected_at - timedelta(days=30)).isoformat(timespec="seconds")
+        if dated and max(dated) < cutoff:
+            message += "  [STALE: newest item " + max(dated)[:10] + "]"
+            stale.append(name)
+        print(message)
         total_new += new
         time.sleep(1)
 
@@ -50,6 +75,10 @@ def main():
     if failed:
         print("Failed feeds:")
         for name in failed:
+            print("  -", name)
+    if stale:
+        print("Stale feeds (consider removing):")
+        for name in stale:
             print("  -", name)
 
 

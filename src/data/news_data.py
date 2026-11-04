@@ -20,8 +20,9 @@ def load_sources():
         return yaml.safe_load(f)
 
 
-def google_news_url(query, days=7):
-    q = quote_plus('"' + query + '" when:' + str(days) + "d")
+def google_news_url(query, days=7, exact=True):
+    text = '"' + query + '"' if exact else query
+    q = quote_plus(text + " when:" + str(days) + "d")
     return "https://news.google.com/rss/search?q=" + q + "&hl=en-IN&gl=IN&ceid=IN:en"
 
 
