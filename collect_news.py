@@ -55,7 +55,7 @@ def main():
             text = item["title"] + " " + item["summary"]
             item["symbols"] = ",".join(find_symbols(text, compiled))
             if name.startswith("Google News filings") and not item["symbols"]:
-        continue
+                continue
             items.append(item)
 
         new, duplicates, merged = save_items(conn, items)
