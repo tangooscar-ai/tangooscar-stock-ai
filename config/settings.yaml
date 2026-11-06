@@ -1,4 +1,4 @@
-history_years: 3
+history_years: 10
 database_path: data/processed/tangooscar.db
 
 stocks:
@@ -19,3 +19,7 @@ indices:
   - "^NSEBANK"
   - "^CRSLDX"
   - "^INDIAVIX"
+  - "USDINR=X"
+  - "CL=F"
+  - "^GSPC"
+  - "^TNX"
