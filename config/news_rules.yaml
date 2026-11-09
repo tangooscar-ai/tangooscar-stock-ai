@@ -1,0 +1,131 @@
+version: 1
+
+reliability:
+  tier_base:
+    official: 0.95
+    major: 0.70
+    aggregator: 0.45
+  outlets:
+    "Reuters": 0.90
+    "Bloomberg": 0.90
+    "Economic Times": 0.80
+    "Business Standard": 0.80
+    "Mint": 0.80
+    "BusinessLine": 0.80
+    "Financial Express": 0.75
+    "CNBC": 0.75
+    "Moneycontrol": 0.70
+    "Business Today": 0.70
+    "Times of India": 0.70
+    "NDTV": 0.70
+    "Business Insider": 0.60
+    "Zee Business": 0.60
+
+events:
+  scheduled_event:
+    - "board meeting"
+    - "record date"
+    - "ex-dividend"
+    - "earnings call"
+    - "results date"
+    - "AGM"
+  results:
+    - 're:Q[1-4](?:FY\d*)?'
+    - 're:H[12]\s*FY\d*'
+    - "results"
+    - "net profit"
+    - "profit"
+    - "revenue"
+    - "EBITDA"
+    - "earnings"
+    - "margin"
+  corporate_action:
+    - "dividend"
+    - "bonus"
+    - "stock split"
+    - "buyback"
+    - "rights issue"
+  deal:
+    - "acquisition"
+    - "acquire"
+    - "acquires"
+    - "merger"
+    - "stake"
+    - "order"
+    - "orders"
+    - "bags"
+    - "wins"
+    - "IPO"
+    - "listing"
+    - "demerger"
+    - "joint venture"
+    - "partnership"
+    - "contract"
+    - "deal"
+    - "buyout"
+  regulatory:
+    - "SEBI"
+    - "penalty"
+    - "probe"
+    - "investigation"
+    - "show-cause"
+    - "show cause"
+    - "NCLT"
+    - "CCI"
+    - "fraud"
+    - "ban"
+    - "banned"
+    - "bars"
+    - "notice"
+  management:
+    - "CEO"
+    - "CFO"
+    - "MD"
+    - "chairman"
+    - "resigns"
+    - "resignation"
+    - "appoints"
+    - "appointed"
+    - "promoter"
+    - "promoters"
+    - "pledge"
+  macro:
+    - "RBI"
+    - "repo rate"
+    - "monetary policy"
+    - "inflation"
+    - "GDP"
+    - "crude"
+    - "rupee"
+    - "FII"
+    - "FPI"
+    - "budget"
+    - "tariff"
+    - "Fed"
+  analyst_view:
+    - "target price"
+    - "brokerage"
+    - "initiates coverage"
+    - "upgrade"
+    - "downgrade"
+    - "buy rating"
+    - "sell rating"
+    - "analyst"
+    - "analysts"
+    - "overweight"
+    - "underweight"
+    - "stocks to buy"
+    - "stock to buy"
+    - "stocks to watch"
+    - "should you buy"
+    - "buy or sell"
+    - "RSI"
+    - "recommend"
+  price_move:
+    - 're:(?:shares?|stocks?)\s+(?:fall|falls|fell|drop|drops|dropped|slip|slips|slipped|tumble|tumbles|tumbled|plunge|plunges|plunged|jump|jumps|jumped|surge|surges|surged|rally|rallies|rallied|rise|rises|rose|gain|gains|gained|soar|soars|soared|crash|crashes|crashed)'
+    - 're:(?:shares?|stocks?)\s+(?:down|up)'
+    - "52-week high"
+    - "52-week low"
+    - "record high"
+    - "top gainers"
+    - "top losers"
